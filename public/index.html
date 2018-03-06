@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <link rel="icon" sizes="192x192" href="favicon.ico">
+    <title>Quản lý đơn hàng</title>
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/angular-material.min.css">
+    <script src="js/angular.min.js"></script>
+    <script src="js/angular-aria.min.js"></script>
+    <script src="js/angular-animate.min.js"></script>
+    <script src="js/angular-material.min.js"></script>
+    <script src="js/main.js?v=1"></script>
+
+</head>
+<body ng-app="MyApp" ng-controller="AppCtrl">
+<md-card class="container">
+    <form name="trade" class="form">
+        <md-input-container class="md-block">
+            <label>Nhập api key</label>
+            <input required name="apiKey" ng-model="apiKey">
+        </md-input-container>
+        <md-input-container class="md-block">
+            <label>Nhập api secret</label>
+            <input required name="apiSecret" ng-model="apiSecret">
+        </md-input-container>
+        <div class="main">
+            <div class="content">
+                <md-list-item ng-click="null">
+                    <span class="tittle">Last</span>{{lastPrice}}
+                </md-list-item>
+                <md-list-item ng-click="null">
+                    <span class="tittle">Low</span>{{bidPrice}}
+                </md-list-item>
+                <md-list-item ng-click="null" style="color: blue">
+                    <span class="tittle">Giá mua</span>{{bidPrice}}
+                </md-list-item>
+                <md-list-item ng-click="null" style="color: red">
+                    <span class="tittle">Giá bán</span>{{bidPrice}}
+                </md-list-item>
+            </div>
+        </div>
+        <div class="content">
+        <md-input-container class="md-block" layout="row">
+            <label>Amount</label>
+            <input required name="apiSecret" ng-model="apiSecret">
+        </md-input-container>
+        <md-input-container class="md-block" layout="row">
+            <label>Phần trăm</label>
+            <input required name="apiSecret" ng-model="apiSecret">
+        </md-input-container>
+        <md-input-container class="md-block" layout="row">
+            <label>Mã</label>
+            <input required name="apiSecret" ng-model="apiSecret">
+        </md-input-container>
+        </div>
+        <div class="button">
+            <md-button type="submit" class="md-raised md-primary">Mua</md-button>
+            <md-button  class="md-raised md-warn">Bán</md-button>
+        </div>
+    </form>
+</md-card>
+</body>
+</html>
