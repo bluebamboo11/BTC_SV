@@ -18,7 +18,7 @@
 </head>
 <body ng-app="MyApp" ng-controller="AppCtrl">
 <md-card class="container">
-    <form name="trade" class="form">
+    <form name="trade" class="form" ng-submit="addTradeBuy()">
         <md-input-container class="md-block">
             <label>Nhập api key</label>
             <input required name="apiKey" ng-model="apiKey">
@@ -36,30 +36,30 @@
                     <span class="tittle">Low</span>{{bidPrice}}
                 </md-list-item>
                 <md-list-item ng-click="null" style="color: blue">
-                    <span class="tittle">Giá mua</span>{{bidPrice}}
+                    <span class="tittle">Giá mua</span>{{buy}}
                 </md-list-item>
                 <md-list-item ng-click="null" style="color: red">
-                    <span class="tittle">Giá bán</span>{{bidPrice}}
+                    <span class="tittle">Giá bán</span>{{sell}}
                 </md-list-item>
             </div>
         </div>
         <div class="content">
         <md-input-container class="md-block" layout="row">
             <label>Amount</label>
-            <input required name="apiSecret" ng-model="apiSecret">
+            <input required  type="number"step="any" name="amount" ng-model="amount">
         </md-input-container>
         <md-input-container class="md-block" layout="row">
             <label>Phần trăm</label>
-            <input required name="apiSecret" ng-model="apiSecret">
+            <input required  type="number" step="any" name="percent" ng-model="percent">
         </md-input-container>
         <md-input-container class="md-block" layout="row">
             <label>Mã</label>
-            <input required name="apiSecret" ng-model="apiSecret">
+            <input required name="code" ng-model="code">
         </md-input-container>
         </div>
         <div class="button">
             <md-button type="submit" class="md-raised md-primary">Mua</md-button>
-            <md-button  class="md-raised md-warn">Bán</md-button>
+            <md-button  class="md-raised md-warn" ng-click="addTradeSell()">Bán</md-button>
         </div>
     </form>
 </md-card>
