@@ -16,6 +16,7 @@ angular.module('MyApp', ['ngMaterial'])
         }
 
         $scope.addTradeBuy = function () {
+
             $http({
                 method: 'POST',
                 url: 'addTradeBuy',
@@ -25,7 +26,7 @@ angular.module('MyApp', ['ngMaterial'])
                         apiSecret: $scope.apiSecret,
                         amount: $scope.amount,
                         percent: $scope.percent,
-                        code: $scope.code
+                        code:$scope.code
                     },
                 headers: {
                     'Content-Type': 'application/json; charset=utf-8'
@@ -36,7 +37,7 @@ angular.module('MyApp', ['ngMaterial'])
                     $scope.lastPrice = response.data.last;
                     $scope.bidPrice = response.data.low
                 }{
-                    alert('Lỗi : '+response.data);
+                    alert('Lỗi : '+JSON.stringify(response.data));
                 }
             }, function errorCallback(response) {
 
@@ -52,7 +53,7 @@ angular.module('MyApp', ['ngMaterial'])
                         apiSecret: $scope.apiSecret,
                         amount: $scope.amount,
                         percent: $scope.percent,
-                        code: $scope.code
+                        code:$scope.code
                     },
                 headers: {
                     'Content-Type': 'application/json; charset=utf-8'

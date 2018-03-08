@@ -15,5 +15,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', index);
-
+process.on('uncaughtException', function (err) {
+    console.log('Caught exception: ', err);
+});
 module.exports = app;

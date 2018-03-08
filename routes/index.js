@@ -26,42 +26,61 @@ router.post('/addTradeBuy', function (req, res, next) {
 router.post('/addTradeSell', function (req, res, next) {
     if (!req.body) return res.sendStatus(400);
     var trade = req.body;
+    console.log(trade);
     publicClient.getOrderBook(function (err, dataOrder) {
+        console.log(dataOrder);
         var privateClient = new Yobit(trade.apiKey, trade.apiSecret);
         privateClient.getInfo(function (err, dataInfo) {
-            console.log(dataInfo.return.funds.btc+'--'+dataOrder[trade.code].bids[0][0]);
-            // privateClient.addTrade(function (err, dataTrade) {
-            //
-            // }, trade.code, 'sell', dataInfo.return.funds.eth, price);
-            res.send(dataInfo);
+            privateClient.addTrade(function (err, data) {
+                console.log( dataOrder[trade.code+'_btc']);
+                res.send(dataOrder[trade.code+'_btc'].bids[0][0] - 0.00000001+'');
+            }, trade.code+'_btc', 'sell', dataInfo.return.funds[trade.code], dataOrder[trade.code+'_btc'].asks[0][0] - 0.00000001);
         });
-    }, trade.code, 1)
+    }, trade.code+'_btc', 1)
+});
+router.get('/getOrderBook', function (req, res, next) {
+
 });
 
 function buyPrice(trade, res) {
-    console.log(trade);
-    publicClient.getTicker(function (err, data) {
-        if (err) {
-            res.send(err);
-        } else {
-            if (data[trade.code]) {
-                var price = data[trade.code].low * (1 + trade.percent / 100);
-                var amount = trade.amount / price;
-                var privateClient = new Yobit(trade.apiKey, trade.apiSecret);
-                privateClient.addTrade(function (err, dataTrade) {
-                    if (err) {
-                        res.send(err);
-                    } else {
-                        dataTrade.last = data[trade.code].last;
-                        dataTrade.low = data[trade.code].low;
-                        res.send(dataTrade);
-                    }
-                }, trade.code, 'buy', amount, price);
+    try {
+        trade.code =  trade.code+'_btc';
+        publicClient.getTicker(function (err, data) {
+            if (err) {
+                res.send(err);
             } else {
-                res.send(data);
+                if (data[trade.code]) {
+                    var price = data[trade.code].low * (1 + trade.percent / 100);
+                    var amount = trade.amount / price;
+                    var privateClient = new Yobit(trade.apiKey, trade.apiSecret);
+                    console.log(trade);
+                    privateClient.addTrade(function (err, dataTrade) {
+                        console.log(dataTrade);
+                        if (err) {
+                            res.send(err);
+                        } else {
+                            setTimeout(function () {
+                                privateClient.cancelOrder(function (err, cancel) {
+                                    if (err) {
+                                        res.send(err);
+                                    } else {
+                                        cancel.last = data[trade.code].last;
+                                        cancel.low = data[trade.code].low;
+                                        res.send(cancel);
+                                    }
+                                }, trade.code, dataTrade.return.order_id);
+                            }, 500);
+                        }
+                    }, trade.code, 'buy', amount, price);
+                } else {
+                    res.send(data);
+                }
             }
-        }
-    }, trade.code)
+        }, trade.code)
+    } catch (err) {
+        res.send(err)
+    }
 }
+
 
 module.exports = router;
